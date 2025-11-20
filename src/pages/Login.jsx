@@ -18,7 +18,7 @@ export const LoginPage = () => {
   const [step, setStep] = useState(1); // 1: email, 2: OTP
   const [userToken, setUserToken] = useState('');
   const navigate = useNavigate();
-  const { login, baseUrl, setToken } = useContext(MainContext);
+  const { login, baseUrl, setToken, setIsLoggedin } = useContext(MainContext);
 
   // Step 1: Send email to get OTP
   const handleEmailSubmit = async () => {
@@ -69,7 +69,7 @@ export const LoginPage = () => {
       // Save auth token and user info
       localStorage.setItem("token", data.token);
       // login(data.user || { email });
-
+      setIsLoggedin(true)
       message.info('Redirecting to dashboard...');
       navigate("/");
       

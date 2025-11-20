@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import './App.css'
 import AuthContext from './context/AuthContext';
+
 import { Router } from './context/RouterContext'
 
 import { LoginPage } from './pages/Login';
@@ -19,10 +20,12 @@ import VendorsPage from './pages/vendor';
 import VendorDetailsPage from './pages/vendor/vendorDetails';
 import UsersPage from './pages/user';
 import UserDetailsPage from './pages/user/UserDetails';
+import { MainContext } from './context/AuthContext';
 
 function App() {
-  const isLoggedIn = !!localStorage.getItem("token");
-  console.log("the value of isLoggedin", isLoggedIn)
+ 
+
+  const { isLoggedin} = useContext(MainContext);
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -38,7 +41,7 @@ function App() {
         <Route
           path="/auth"
           element={
-            isLoggedIn ? <Navigate to="/" replace /> :  <LoginPage />
+            isLoggedin ? <Navigate to="/" replace /> :  <LoginPage />
           }
         />
 
@@ -46,7 +49,7 @@ function App() {
         <Route
 
           element={
-            !isLoggedIn ? <Navigate to="/auth" replace /> :   (<ProtectedRoute>
+            !isLoggedin ? <Navigate to="/auth" replace /> :   (<ProtectedRoute>
               <DashboardLayout />
             </ProtectedRoute>)
           }
@@ -67,11 +70,11 @@ function App() {
   );
 
   return (
-    <AuthContext>
+ 
     
       <RouterProvider router={router} />
    
-    </AuthContext>
+  
   )
 }
 
