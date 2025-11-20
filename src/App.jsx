@@ -38,7 +38,7 @@ function App() {
         <Route
           path="/auth"
           element={
-            <LoginPage />
+            isLoggedIn ? <Navigate to="/" replace /> :  <LoginPage />
           }
         />
 
@@ -46,9 +46,9 @@ function App() {
         <Route
 
           element={
-             <ProtectedRoute>
+            !isLoggedIn ? <Navigate to="/auth" replace /> :   (<ProtectedRoute>
               <DashboardLayout />
-            </ProtectedRoute>
+            </ProtectedRoute>)
           }
           path='/'
         >
